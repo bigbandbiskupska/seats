@@ -1,0 +1,15 @@
+[
+	'id' => 4,
+	'name' => 'New',
+	'surname' => 'User',
+	'email' => 'new@user.com',
+	'password' => 'yyy',
+	'roles' => 'user',
+	'token' => '',
+	'expires_at' => Nette\Utils\DateTime::__set_state(/* #5663 */ [
+		'date' => '-0001-11-30 00:00:00.000000',
+		'timezone_type' => 3,
+		'timezone' => 'Europe/Prague',
+	]),
+	'ip_address' => '7.7.7.7',
+]

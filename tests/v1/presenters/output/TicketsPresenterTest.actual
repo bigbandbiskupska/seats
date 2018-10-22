@@ -1,0 +1,57 @@
+[
+	'id' => 1,
+	'user_id' => 1,
+	'note' => '007',
+	'created_at' => Nette\Utils\DateTime::__set_state(/* #2c14 */ [
+		'date' => '2017-01-01 00:00:00.000000',
+		'timezone_type' => 3,
+		'timezone' => 'Europe/Prague',
+	]),
+	'updated_at' => Nette\Utils\DateTime::__set_state(/* #7294 */ [
+		'date' => '2017-01-01 00:00:00.000000',
+		'timezone_type' => 3,
+		'timezone' => 'Europe/Prague',
+	]),
+	'seats' => [
+		[
+			'id' => 1,
+			'schema_id' => 1,
+			'x' => 1,
+			'y' => 1,
+			'row' => 1,
+			'col' => 1,
+		],
+		[
+			'id' => 2,
+			'schema_id' => 1,
+			'x' => 1,
+			'y' => 2,
+			'row' => 1,
+			'col' => 2,
+		],
+		[
+			'id' => 3,
+			'schema_id' => 1,
+			'x' => 1,
+			'y' => 3,
+			'row' => 1,
+			'col' => 3,
+		],
+		[
+			'id' => 4,
+			'schema_id' => 1,
+			'x' => 1,
+			'y' => 4,
+			'row' => 1,
+			'col' => 4,
+		],
+		[
+			'id' => 5,
+			'schema_id' => 1,
+			'x' => 1,
+			'y' => 5,
+			'row' => 1,
+			'col' => 5,
+		],
+	],
+]

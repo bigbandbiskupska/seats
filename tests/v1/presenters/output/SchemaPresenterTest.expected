@@ -1,0 +1,8 @@
+[
+	'id' => 1,
+	'name' => 'Vánoční koncert',
+	'price' => 250,
+	'hidden' => 1,
+	'locked' => 0,
+	'limit' => 5,
+]

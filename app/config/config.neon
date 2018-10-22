@@ -1,0 +1,36 @@
+php:
+    date.timezone: Europe/Prague
+
+
+application:
+    errorPresenter: Error
+    scanComposer: false
+    catchExceptions: true
+    mapping:
+        *: App\*Module\Presenters\*Presenter
+
+
+session:
+    expiration: 14 days
+
+
+services:
+    router: App\RouterFactory::createRouter
+    v1seats: App\v1Module\Models\Seats
+    v1schemas: App\v1Module\Models\Schemas
+    v1users: App\v1Module\Models\Users
+    v1tickets: App\v1Module\Models\Tickets
+    parameters: Tulinkry\Services\ParameterService
+
+database:
+    dsn: %database.dsn%
+    user: %database.user%
+    password: %database.password%
+
+parameters:
+    api:
+        users:
+            forgotten_password: http://localhost:8004/users/forgotten_password
+            renew_password: http://localhost:8004/users/renew_password
+        tickets:
+            base: http://localhost:8003

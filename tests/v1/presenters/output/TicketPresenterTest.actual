@@ -1,0 +1,17 @@
+[
+	'id' => 1,
+	'user_id' => 1,
+	'note' => '007',
+	'confirmed' => 0,
+	'created_at' => Nette\Utils\DateTime::__set_state(/* #f563 */ [
+		'date' => '2017-01-01 00:00:00.000000',
+		'timezone_type' => 3,
+		'timezone' => 'Europe/Prague',
+	]),
+	'updated_at' => Nette\Utils\DateTime::__set_state(/* #7aba */ [
+		'date' => '2017-01-01 00:00:00.000000',
+		'timezone_type' => 3,
+		'timezone' => 'Europe/Prague',
+	]),
+	'seats' => [1, 2, 3, 4, 5],
+]

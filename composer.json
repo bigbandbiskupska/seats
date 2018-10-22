@@ -1,0 +1,40 @@
+{
+	"name": "nette/sandbox",
+	"description": "The sandbox is a pre-packaged Nette Framework project, basic configured structure for your application.",
+	"homepage": "http://nette.org",
+	"type": "project",
+	"license": ["BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
+	"authors": [
+		{
+			"name": "David Grudl",
+			"homepage": "http://davidgrudl.com"
+		},
+		{
+			"name": "Nette Community",
+			"homepage": "http://nette.org/contributors"
+		}
+	],
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "https://github.com/tulinkry/git"
+		},
+		{
+			"type": "vcs",
+			"url": "https://github.com/tulinkry/tulinkry"
+		}
+	],
+	"require": {
+		"php": ">= 5.4",
+		"nette/nette": "~2.3.0",
+		"dg/adminer-custom": "~1.6",
+		"tulinkry/git": "dev-master",
+		"ublaboo/api-router": "1.2.10"
+	},
+	"minimum-stability": "dev",
+	"prefer-stable" : true,
+	"require-dev": {
+		"nette/tester": "^2.0.1",
+		"kdyby/console": "^2.6"
+	}
+}

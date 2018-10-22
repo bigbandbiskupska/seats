@@ -1,0 +1,9 @@
+[
+	'id' => 3,
+	'name' => 'Nový testovací koncert',
+	'limit' => 100,
+	'price' => 1000,
+	'hidden' => 0,
+	'locked' => 1,
+	'seats' => [301, 302, 303, 304],
+]

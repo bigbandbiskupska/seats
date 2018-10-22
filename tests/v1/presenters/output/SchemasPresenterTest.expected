@@ -1,0 +1,16 @@
+[
+	1 => [
+		'id' => 1,
+		'name' => 'Vánoční koncert',
+		'price' => 250,
+		'hidden' => 1,
+		'locked' => 0,
+	],
+	[
+		'id' => 2,
+		'name' => 'Velikonoční koncert',
+		'price' => 100,
+		'hidden' => 0,
+		'locked' => 1,
+	],
+]
