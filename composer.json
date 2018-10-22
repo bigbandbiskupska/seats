@@ -17,18 +17,19 @@
 	"repositories": [
 		{
 			"type": "vcs",
-			"url": "https://github.com/tulinkry/git"
+			"url": "git@github.com:tulinkry/git"
 		},
 		{
 			"type": "vcs",
-			"url": "https://github.com/tulinkry/tulinkry"
+			"url": "git@github.com:tulinkry/tulinkry"
 		}
 	],
 	"require": {
 		"php": ">= 5.4",
 		"nette/nette": "~2.3.0",
 		"dg/adminer-custom": "~1.6",
-		"tulinkry/git": "dev-master",
+		"tulinkry/git": "~1",
+		"tulinkry/tulinkry": "dev-master",
 		"ublaboo/api-router": "1.2.10"
 	},
 	"minimum-stability": "dev",
