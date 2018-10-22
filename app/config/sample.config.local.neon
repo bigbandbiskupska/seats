@@ -1,0 +1,15 @@
+parameters:
+    database:
+        host: 127.0.0.1
+        dbname: bbb_seats
+        user: root
+        password: 
+        dsn: 'mysql:host=%database.host%;dbname=%database.dbname%'
+
+parameters:
+    api:
+        users:
+            forgotten_password: http://localhost:8004/users/forgotten_password
+            renew_password: http://localhost:8004/users/renew_password
+        tickets:
+            base: http://localhost:8003
