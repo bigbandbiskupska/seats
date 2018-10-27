@@ -33,6 +33,8 @@ class Tickets extends BaseModel
     {
         return array_map(function($ticket) {
             return array_merge(self::toArray($ticket),
+                ['created_at' => $ticket->created_at->getTimestamp() * 1000],
+                ['updated_at' => $ticket->updated_at->getTimestamp() * 1000],
                 ['schema' => self::toArray($ticket->ref('schema'))],
                 ['seats' => array_keys($ticket->related('reservations')->fetchPairs('id'))]
             );
@@ -249,6 +251,8 @@ class Tickets extends BaseModel
         }
 
         return array_merge($ticket->toArray(),
+            ['created_at' => $ticket->created_at->getTimestamp() * 1000],
+            ['updated_at' => $ticket->updated_at->getTimestamp() * 1000],
             ['schema' => self::toArray($ticket->ref('schema'))],
             ['seats' => array_keys($ticket->related('reservations')->fetchPairs('id'))]);
     }

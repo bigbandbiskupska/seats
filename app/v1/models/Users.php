@@ -13,6 +13,8 @@ class Users extends BaseModel
         return array_map(function ($ticket) {
             return array_merge(
                 $ticket->toArray(),
+                ['created_at' => $ticket->created_at->getTimestamp() * 1000],
+                ['updated_at' => $ticket->updated_at->getTimestamp() * 1000],
                 ['schema' => self::toArray($ticket->ref('schema'))],
                 ['seats' => array_keys($ticket->related('reservations')->fetchPairs('id'))]
             );
@@ -44,8 +46,19 @@ class Users extends BaseModel
             return null;
         }
         foreach ($users as $user) {
-            return self::toArray($user);
+            return array_merge(self::toArray($user),
+                ['last_click_at' => $user->last_click_at !== null ? $user->last_click_at->getTimestamp() * 1000 : null]
+            );
         }
+    }
+
+    public function all() {
+        $users = parent::all();
+        foreach($users as &$user) {
+            $user['last_click_at'] = $user['last_click_at'] !== null ? $user['last_click_at']->getTimestamp() * 1000 : null;
+            unset($user['password']);
+        }
+        return $users;
     }
 
     public function find($id)
@@ -57,7 +70,8 @@ class Users extends BaseModel
         $data = self::toArray($user);
         unset($data['password']);
         return array_merge($data, [
-            'tickets' => array_keys($user->related('tickets.user_id')->fetchPairs('id'))
+            'tickets' => array_keys($user->related('tickets.user_id')->fetchPairs('id')),
+            ['last_click_at' => $user->last_click_at !== null ? $user->last_click_at->getTimestamp() * 1000 : null]
         ]);
     }
 }
