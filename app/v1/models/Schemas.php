@@ -49,7 +49,7 @@ class Schemas extends BaseModel
         if (($schema = $this->database->table($this->table)->get($id)) === false) {
             throw new BadRequestException("Neznámé $id pro {$this->table}");
         }
-        return array_map(function ($seat) {
+        $seats =  array_map(function ($seat) {
             return array_merge(
                 $seat->toArray(),
                 array(
@@ -61,6 +61,8 @@ class Schemas extends BaseModel
                 )
             );
         }, $schema->related('seats.schema_id')->fetchPairs('id'));
+        shuffle($seats);
+        return $seats;
     }
 
     // TODO: write a test for schema.seats for presence of tickets
@@ -72,8 +74,10 @@ class Schemas extends BaseModel
             throw new BadRequestException("Neznámé $id pro {$this->table}");
         }
         $seats = $schema->related('seats.schema_id')->fetchPairs('id');
+        $seats = array_keys($seats);
+        shuffle($seats);
         return array_merge(self::toArray($schema), [
-            'seats' => array_keys($seats)
+            'seats' => $seats
         ]);
     }
 
