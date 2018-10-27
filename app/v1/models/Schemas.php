@@ -62,7 +62,7 @@ class Schemas extends BaseModel
             );
         }, $schema->related('seats.schema_id')->fetchPairs('id'));
         shuffle($seats);
-        return $seats;
+        return array_combine(array_map(function($s) { return $s['id'];}, $seats), $seats);
     }
 
     // TODO: write a test for schema.seats for presence of tickets
