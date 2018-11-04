@@ -3,6 +3,8 @@
 namespace App\v1Module\Models;
 
 use Nette\Application\BadRequestException;
+use Nette\Database\UniqueConstraintViolationException;
+use Nette\Utils\Random;
 use Tracy\Debugger;
 
 class Users extends BaseModel
@@ -24,6 +26,20 @@ class Users extends BaseModel
     public function create($parameters)
     {
         $user = $this->database->table($this->table)->insert($parameters);
+
+        // TODO: test this
+        // needs new token for authorization
+        do {
+            $parameters['token'] = Random::generate(128);
+            try {
+                $this->update($user->id, [
+                    'token' => $parameters['token']
+                ]);
+                break;
+            } catch (UniqueConstraintViolationException $e) {
+            }
+        } while (true);
+
         foreach ($this->database->table('schemas')->fetchAll() as $schema) {
             $this->database->table('allowed_limit')->insert([
                 'schema_id' => $schema->id,
@@ -52,9 +68,10 @@ class Users extends BaseModel
         }
     }
 
-    public function all() {
+    public function all()
+    {
         $users = parent::all();
-        foreach($users as &$user) {
+        foreach ($users as &$user) {
             $user['last_click_at'] = $user['last_click_at'] !== null ? $user['last_click_at']->getTimestamp() * 1000 : null;
             unset($user['password']);
         }
