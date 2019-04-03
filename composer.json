@@ -16,12 +16,12 @@
 	],
 	"repositories": [
 		{
-			"type": "vcs",
-			"url": "https://github.com/tulinkry/git"
+			"type": "git",
+			"url": "https://github.com/tulinkry/git.git"
 		},
 		{
-			"type": "vcs",
-			"url": "https://github.com/tulinkry/tulinkry"
+			"type": "git",
+			"url": "https://github.com/tulinkry/tulinkry.git"
 		}
 	],
 	"require": {
