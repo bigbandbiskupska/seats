@@ -1,6 +1,6 @@
 <?php
 
-use App\Tests\BaseTestCase;
+use App\Tests\TestCaseWithDatabase;
 use App\v1Module\Models\Seats;
 use Nette\Application\BadRequestException;
 use Nette\Application\IPresenterFactory;
@@ -13,12 +13,12 @@ use Tester\Assert;
 
 $container = require __DIR__ . "/../../../bootstrap.php";
 
-class AlreadyReservedSeatTest extends BaseTestCase {
+class AlreadyReservedSeatTest extends TestCaseWithDatabase {
 
     /** @var Presenter */
     protected $presenter;
 
-    public function setUp() {
+    public function setUpClass() {
         $this->database->table('seats')->get(50)->update([
             'state' => Seats::RESERVED
         ]);
@@ -30,10 +30,7 @@ class AlreadyReservedSeatTest extends BaseTestCase {
             'updated_at' => DateTime::from("2017-01-01 00:00:00"),
         ));
 
-        $factory = $this->container->getByType(IPresenterFactory::class);
-
-        $this->presenter = $factory->createPresenter('v1:Tickets');
-        $this->presenter->autoCanonicalize = false;
+        $this->presenter = $this->createPresenter('v1:Tickets');
     }
 
     public function testAlreadyReservedSeatCreate() {

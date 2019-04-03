@@ -1,6 +1,6 @@
 <?php
 
-use App\Tests\BaseTestCase;
+use App\Tests\TestCaseWithDatabase;
 use App\v1Module\Models\Seats;
 use Nette\Application\BadRequestException;
 use Nette\Application\Request;
@@ -12,12 +12,12 @@ use Tester\Assert;
 
 $container = require __DIR__ . "/../../../bootstrap.php";
 
-class SeatOnTheTicketTest extends BaseTestCase {
+class SeatOnTheTicketTest extends TestCaseWithDatabase {
 
     /** @var Presenter */
     protected $presenter;
 
-    public function setUp() {
+    public function setUpClass() {
         $this->presenter = $this->createPresenter('v1:Seat');
 
         $this->database->table('tickets')->insert([

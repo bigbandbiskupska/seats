@@ -1,0 +1,3 @@
+#!/bin/sh
+
+docker exec -t tickets_seats_1 vendor/bin/tester -C tests/$1

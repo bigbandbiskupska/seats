@@ -1,0 +1,18 @@
+parameters:
+    database:
+        host: mysql-master
+        dbname: bbb_test_seats
+        user: root
+        password: root
+        dsn: 'mysql:host=%database.host%'
+
+services:
+    cacheStorage:
+        factory: Nette\Caching\Storages\DevNullStorage
+    http.requestFactory:
+        factory: App\Tests\RequestFactory
+
+security:
+    users:
+        jamesbond: 007
+

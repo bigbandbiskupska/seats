@@ -1,6 +1,7 @@
 <?php
 
-use App\Tests\BaseTestCase;
+use App\Tests\TestCaseWithDatabase;
+use App\v1Module\Models\Seats;
 use Nette\Application\Request;
 use Nette\Application\Responses\JsonResponse;
 use Nette\Application\UI\Presenter;
@@ -9,13 +10,13 @@ use Tester\Assert;
 
 $container = require __DIR__ . "/../../../bootstrap.php";
 
-class SchemasWithPresenterTest extends BaseTestCase
+class SchemasWithPresenterTest extends TestCaseWithDatabase
 {
 
     /** @var Presenter */
     protected $presenter;
 
-    public function setUp()
+    public function setUpClass()
     {
         $this->setUpRequestInput(array(
             'name' => 'Nový testovací koncert',
@@ -24,19 +25,19 @@ class SchemasWithPresenterTest extends BaseTestCase
             'seats' => [
                 [
                     [
-                        'x' => 1, 'y' => 1, 'row' => 1, 'col' => 1, 'price' => 200
+                        'x' => 1, 'y' => 1, 'row' => 1, 'col' => 1, 'price' => 200, 'state' => Seats::AVAILABLE
                     ],
                     [
-                        'x' => 2, 'y' => 1, 'row' => 1, 'col' => 2, 'price' => 100
+                        'x' => 2, 'y' => 1, 'row' => 1, 'col' => 2, 'price' => 100, 'state' => Seats::AVAILABLE
                     ],
 
                 ],
                 [
                     [
-                        'x' => 1, 'y' => 2, 'row' => 2, 'col' => 1, 'price' => 400
+                        'x' => 1, 'y' => 2, 'row' => 2, 'col' => 1, 'price' => 400, 'state' => Seats::AVAILABLE
                     ],
                     [
-                        'x' => 2, 'y' => 2, 'row' => 2, 'col' => 2, 'price' => 800
+                        'x' => 2, 'y' => 2, 'row' => 2, 'col' => 2, 'price' => 800, 'state' => Seats::AVAILABLE
                     ],
 
                 ],
@@ -68,6 +69,7 @@ class SchemasWithPresenterTest extends BaseTestCase
             'seats' => [301, 302, 303, 304]
         ];
         $actual = $response->getPayload();
+        dump($actual);
         Assert::equal($expected, $actual);
 
         Assert::count(3, $this->database->table('allowed_limit')->where('schema_id', 3));

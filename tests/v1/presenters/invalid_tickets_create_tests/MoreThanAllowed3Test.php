@@ -1,19 +1,17 @@
 <?php
 
-use App\Tests\BaseTestCase;
+use App\Tests\TestCaseWithDatabase;
 use App\v1Module\Models\Seats;
 use Nette\Application\BadRequestException;
 use Nette\Application\IPresenterFactory;
 use Nette\Application\Request;
-use Nette\Application\Responses\JsonResponse;
 use Nette\Application\UI\Presenter;
-use Nette\Http\IResponse;
 use Nette\Utils\DateTime;
 use Tester\Assert;
 
 $container = require __DIR__ . "/../../../bootstrap.php";
 
-class MoreThanAllowed3Test extends BaseTestCase {
+class MoreThanAllowed3Test extends TestCaseWithDatabase {
 
     /** @var Presenter */
     protected $presenter;
@@ -36,9 +34,7 @@ class MoreThanAllowed3Test extends BaseTestCase {
         $this->database->table('seats')->where('id', [1, 2, 3, 4, 5])->update([
             'state' => Seats::RESERVED
         ]);
-    }
 
-    public function setUp() {
         $this->setUpRequestInput(array(
             'user_id' => 1,
             'seats' => [6, 7, 8], // 5 is the limit and is already reserved
@@ -46,10 +42,7 @@ class MoreThanAllowed3Test extends BaseTestCase {
             'updated_at' => DateTime::from("2017-01-01 00:00:00"),
         ));
 
-        $factory = $this->container->getByType(IPresenterFactory::class);
-
-        $this->presenter = $factory->createPresenter('v1:Tickets');
-        $this->presenter->autoCanonicalize = false;
+        $this->presenter = $this->createPresenter('v1:Tickets');
     }
 
     public function testAlreadyReservedSeatCreate() {

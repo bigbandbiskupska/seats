@@ -1,6 +1,6 @@
 <?php
 
-use App\Tests\BaseTestCase;
+use App\Tests\TestCaseWithDatabase;
 use App\v1Module\Models\Seats;
 use Nette\Application\BadRequestException;
 use Nette\Application\IPresenterFactory;
@@ -13,12 +13,12 @@ use Tester\Assert;
 
 $container = require __DIR__ . "/../../../bootstrap.php";
 
-class UnknownParameterTest extends BaseTestCase {
+class UnknownParameterTest extends TestCaseWithDatabase {
 
     /** @var Presenter */
     protected $presenter;
 
-    public function setUp() {
+    public function setUpClass() {
         $this->setUpRequestInput(array(
             'user_id' => 1,
             'seats' => [50],
@@ -27,10 +27,7 @@ class UnknownParameterTest extends BaseTestCase {
             'updated_at' => DateTime::from("2017-01-01 00:00:00"),
         ));
 
-        $factory = $this->container->getByType(IPresenterFactory::class);
-
-        $this->presenter = $factory->createPresenter('v1:Tickets');
-        $this->presenter->autoCanonicalize = false;
+        $this->presenter = $this->createPresenter('v1:Tickets');
     }
 
     public function testCreate() {

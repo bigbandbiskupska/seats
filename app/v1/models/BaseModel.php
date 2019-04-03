@@ -74,7 +74,7 @@ class BaseModel
     /**
      * Convert the argument to an array using ->toArray().
      *
-     * @param $e the entity
+     * @param $e entity
      * @return array representing the entity
      */
     public static function toArray($e)

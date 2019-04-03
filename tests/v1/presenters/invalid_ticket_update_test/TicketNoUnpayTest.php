@@ -1,8 +1,7 @@
 <?php
 
-use App\Tests\BaseTestCase;
+use App\Tests\TestCaseWithDatabase;
 use App\v1Module\Models\Seats;
-use Nette\Application\BadRequestException;
 use Nette\Application\Request;
 use Nette\Application\Responses\JsonResponse;
 use Nette\Application\UI\Presenter;
@@ -12,17 +11,17 @@ use Tester\Assert;
 
 $container = require __DIR__ . "/../../../bootstrap.php";
 
-class TicketNoUnpayTest extends BaseTestCase
+class TicketNoUnpayTest extends TestCaseWithDatabase
 {
 
     /** @var Presenter */
     protected $presenter;
 
-    public function __construct(\Nette\DI\Container $container)
+    public function setUpClass()
     {
-        parent::__construct($container);
         $this->database->table('tickets')->insert([
             'user_id' => 3,
+            'schema_id' => 1,
             'note' => '007',
             'confirmed' => true,
             'created_at' => DateTime::from("2017-01-01 00:00:00"),
@@ -43,9 +42,7 @@ class TicketNoUnpayTest extends BaseTestCase
             'note' => 'test',
             'confirmed' => false,
         ));
-    }
 
-    public function setUp() {
         $this->presenter = $this->createPresenter('v1:Ticket');
     }
 

@@ -1,8 +1,7 @@
 <?php
 
-use App\Tests\BaseTestCase;
+use App\Tests\TestCaseWithDatabase;
 use Nette\Application\BadRequestException;
-use Nette\Application\IPresenterFactory;
 use Nette\Application\Request;
 use Nette\Application\Responses\JsonResponse;
 use Nette\Application\UI\Presenter;
@@ -11,16 +10,17 @@ use Tester\Assert;
 
 $container = require __DIR__ . "/../../../bootstrap.php";
 
-class SchemasPresenterTest extends BaseTestCase {
+class SchemasPresenterTest extends TestCaseWithDatabase {
 
     /** @var Presenter */
     protected $presenter;
 
-    public function setUp() {
+    public function setUpClass() {
         $this->setUpRequestInput(array(
             'name' => 'Nový testovací koncert',
             'price' => 1000,
             'limit' => 100,
+            'seats' => []
         ));
 
         $this->presenter = $this->createPresenter('v1:Schemas');
@@ -44,7 +44,7 @@ class SchemasPresenterTest extends BaseTestCase {
         $request = new Request('v1:Schemas', 'GET', array('action' => 'read', 'token' => 'abcd'));
         /** @var JsonResponse */
         $response = $this->presenter->run($request);
-        $httpResponse = $this->presenter->getHttpResponse();
+        $httpResponse = $this->container->getByType(IResponse::class);
 
         Assert::type(JsonResponse::class, $response);
         Assert::equal(IResponse::S200_OK, $httpResponse->getCode());
@@ -58,6 +58,7 @@ class SchemasPresenterTest extends BaseTestCase {
                 'hidden' => 1,
                 'locked' => 0,
                 'limit' => 5,
+                'seats' => array_values($this->database->table('seats')->where('schema_id', 1)->fetchPairs('id', 'id'))
             ],
             2 => [
                 'id' => 2,
@@ -66,8 +67,9 @@ class SchemasPresenterTest extends BaseTestCase {
                 'hidden' => 0,
                 'locked' => 1,
                 'limit' => 5,
+                'seats' => array_values($this->database->table('seats')->where('schema_id', 2)->fetchPairs('id', 'id'))
             ]
-                ], $response->getPayload());
+        ], $response->getPayload());
     }
 
     public function testUnauthorizedCreate() {
@@ -102,6 +104,7 @@ class SchemasPresenterTest extends BaseTestCase {
             'hidden' => 0,
             'locked' => 1,
             'limit' => 100,
+            'seats' => [],
         ];
         $actual = $response->getPayload();
         Assert::equal($expected, $actual);

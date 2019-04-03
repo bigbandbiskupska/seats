@@ -1,6 +1,6 @@
 <?php
 
-use App\Tests\BaseTestCase;
+use App\Tests\TestCaseWithDatabase;
 use Nette\Application\BadRequestException;
 use Nette\Application\IPresenterFactory;
 use Nette\Application\Request;
@@ -11,12 +11,12 @@ use Tester\Assert;
 
 $container = require __DIR__ . "/../../../bootstrap.php";
 
-class SchemaForbiddenParameterIdTest extends BaseTestCase {
+class SchemaForbiddenParameterIdTest extends TestCaseWithDatabase {
 
     /** @var Presenter */
     protected $presenter;
 
-    public function setUp() {
+    public function setUpClass() {
         $this->setUpRequestInput(array(
             'id' => 100,
             'name' => 'Nový testovací koncert',

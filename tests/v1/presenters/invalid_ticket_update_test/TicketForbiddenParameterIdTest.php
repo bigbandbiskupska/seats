@@ -1,6 +1,6 @@
 <?php
 
-use App\Tests\BaseTestCase;
+use App\Tests\TestCaseWithDatabase;
 use App\v1Module\Models\Seats;
 use Nette\Application\BadRequestException;
 use Nette\Application\Request;
@@ -11,14 +11,15 @@ use Tester\Assert;
 
 $container = require __DIR__ . "/../../../bootstrap.php";
 
-class TicketForbiddenParameterIdTest extends BaseTestCase {
+class TicketForbiddenParameterIdTest extends TestCaseWithDatabase {
 
     /** @var Presenter */
     protected $presenter;
 
-    public function setUp() {
+    public function setUpClass() {
         $this->database->table('tickets')->insert([
             'user_id' => 1,
+            'schema_id' => 1,
             'note' => '007',
             'created_at' => DateTime::from("2017-01-01 00:00:00"),
             'updated_at' => DateTime::from("2017-01-01 00:00:00"),

@@ -1,0 +1,17 @@
+parameters:
+    database:
+        host: 127.0.0.1
+        user: root
+        password:
+        dsn: 'mysql:host=%database.host%'
+
+services:
+    cacheStorage:
+        factory: Nette\Caching\Storages\DevNullStorage
+    http.requestFactory:
+        factory: App\Tests\RequestFactory
+
+security:
+    users:
+        jamesbond: 007
+

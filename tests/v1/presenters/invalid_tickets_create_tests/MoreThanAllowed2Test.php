@@ -1,6 +1,6 @@
 <?php
 
-use App\Tests\BaseTestCase;
+use App\Tests\TestCaseWithDatabase;
 use Nette\Application\BadRequestException;
 use Nette\Application\IPresenterFactory;
 use Nette\Application\Request;
@@ -12,12 +12,12 @@ use Tester\Assert;
 
 $container = require __DIR__ . "/../../../bootstrap.php";
 
-class MoreThanAllowed2Test extends BaseTestCase {
+class MoreThanAllowed2Test extends TestCaseWithDatabase {
 
     /** @var Presenter */
     protected $presenter;
 
-    public function setUp() {
+    public function setUpClass() {
         $this->setUpRequestInput(array(
             'user_id' => 2,
             'seats' => [101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112], // 10 is the limit
@@ -25,10 +25,7 @@ class MoreThanAllowed2Test extends BaseTestCase {
             'updated_at' => DateTime::from("2017-01-01 00:00:00"),
         ));
 
-        $factory = $this->container->getByType(IPresenterFactory::class);
-
-        $this->presenter = $factory->createPresenter('v1:Tickets');
-        $this->presenter->autoCanonicalize = false;
+        $this->presenter = $this->createPresenter('v1:Tickets');
     }
 
     public function testAlreadyReservedSeatCreate() {

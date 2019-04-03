@@ -1,47 +1,43 @@
 <?php
 
-use Nette\Configurator;
+use App\Tests\CustomTestCase;
+use App\Tests\TestCaseWithDatabase;
 use Nette\Database\Connection;
-use Tester\Environment;
-use Tester\Helpers;
 
 require __DIR__ . '/../vendor/autoload.php';
 
 define("APP_DIR", __DIR__ . "/../app");
 define("WWW_DIR", __DIR__ . "/../www");
 
-define('SHARED_TMP_DIR', __DIR__ . '/temp');
 define('TMP_DIR', __DIR__ . "/temp/" . getmypid());
 
-register_shutdown_function(function() {
-    // cleanup database __destruct
-    gc_collect_cycles();
-    // cleanup ourselves
-    Tester\Helpers::purge(TMP_DIR);
-    @rmdir(TMP_DIR);
+register_shutdown_function(function () {
+    //Tester\Helpers::purge(TMP_DIR);
+    //@rmdir(TMP_DIR);
 });
 
-Environment::setup();
+Tester\Environment::setup();
 date_default_timezone_set('Europe/Prague');
 
-@mkdir(SHARED_TMP_DIR);
-Helpers::purge(TMP_DIR);
-Helpers::purge(TMP_DIR . '/log');
+@mkdir(__DIR__ . "/temp");
+Tester\Helpers::purge(TMP_DIR);
+Tester\Helpers::purge(TMP_DIR . '/log');
 
-$configurator = new Configurator;
+$configurator = new Nette\Configurator;
 
-$configurator->setDebugMode(FALSE);
-//$configurator->enableDebugger(TMP_DIR . '/log');
+$configurator->setDebugMode(true);
+$configurator->enableDebugger(TMP_DIR . '/log');
 $configurator->setTempDirectory(TMP_DIR);
 
 $configurator->createRobotLoader()
-        ->addDirectory(APP_DIR)
-        ->addDirectory(__DIR__)
-        ->register();
+    ->addDirectory(APP_DIR)
+    ->addDirectory(__DIR__)
+    ->register();
+
 
 $configurator->addConfig(APP_DIR . '/config/config.neon');
 $configurator->addConfig(APP_DIR . '/config/config.local.neon');
-$configurator->addConfig(__DIR__ . '/config/config.test.neon');
+$configurator->addConfig(APP_DIR . '/config/config.test.neon');
 $configurator->addParameters(array("wwwDir" => TMP_DIR));
 $configurator->addParameters(array("appDir" => APP_DIR));
 $configurator->addParameters(array("testDir" => __DIR__));
@@ -53,15 +49,35 @@ $configurator->addParameters([
 
 $container = $configurator->createContainer();
 
-Environment::lock('database', SHARED_TMP_DIR);
-
-/** @var Connection $database */
-$database = $container->getByType(Connection::class);
-$database->query(file_get_contents(__DIR__ . '/db/init.sql'));
-
 /** helpers */
-function run($testcase) {
+function run($testcase)
+{
+    if ($testcase instanceof TestCaseWithDatabase) {
+        global $container;
+
+        /** @var Connection $database */
+        $database = $container->getByType(Connection::class);
+        $database->query('CREATE DATABASE bbb_test_seats_' . getmypid());
+        $database->query('USE bbb_test_seats_' . getmypid());
+        $database->query(file_get_contents(__DIR__ . '/db/init.sql'));
+        $database->query('USE bbb_test_seats_' . getmypid());
+
+        register_shutdown_function(function () use ($container) {
+            /** @var Connection $database */
+            //$database = $container->getByType(Connection::class);
+            //$database->query('DROP DATABASE bbb_test_seats_' . getmypid());
+        });
+    }
+
+    if ($testcase instanceof CustomTestCase) {
+        $testcase->setUpClass();
+    }
+
     $testcase->run();
+
+    if ($testcase instanceof CustomTestCase) {
+        $testcase->tearDownClass();
+    }
 }
 
 return $container;

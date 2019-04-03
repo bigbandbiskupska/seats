@@ -1,9 +1,8 @@
 <?php
 
-use App\Tests\BaseTestCase;
+use App\Tests\TestCaseWithDatabase;
 use App\v1Module\Models\Seats;
 use Nette\Application\BadRequestException;
-use Nette\Application\IPresenterFactory;
 use Nette\Application\Request;
 use Nette\Application\Responses\JsonResponse;
 use Nette\Application\UI\Presenter;
@@ -13,7 +12,7 @@ use Tester\Assert;
 
 $container = require __DIR__ . "/../../bootstrap.php";
 
-class TicketPresenterTest extends BaseTestCase {
+class TicketPresenterTest extends TestCaseWithDatabase {
 
     /** @var Presenter */
     protected $presenter;
@@ -21,6 +20,7 @@ class TicketPresenterTest extends BaseTestCase {
     public function setUpClass() {
         $this->database->table('tickets')->insert([
             'user_id' => 1,
+            'schema_id' => 1,
             'note' => '007',
             'created_at' => DateTime::from("2017-01-01 00:00:00"),
             'updated_at' => DateTime::from("2017-01-01 00:00:00"),
@@ -39,6 +39,7 @@ class TicketPresenterTest extends BaseTestCase {
         $this->database->table('tickets')->insert([
             'user_id' => 1,
             'note' => '008',
+            'schema_id' => 1,
             'created_at' => DateTime::from("2017-01-01 00:00:00"),
             'updated_at' => DateTime::from("2017-01-01 00:00:00"),
         ]);
@@ -56,6 +57,7 @@ class TicketPresenterTest extends BaseTestCase {
         $this->database->table('tickets')->insert([
             'user_id' => 1,
             'note' => '009',
+            'schema_id' => 1,
             'created_at' => DateTime::from("2017-01-01 00:00:00"),
             'updated_at' => DateTime::from("2017-01-01 00:00:00"),
         ]);
@@ -67,9 +69,7 @@ class TicketPresenterTest extends BaseTestCase {
         $this->database->table('seats')->where('id', [20, 21, 22])->update([
             'state' => Seats::RESERVED
         ]);
-    }
 
-    public function setUp() {
         $this->presenter = $this->createPresenter('v1:Ticket');
     }
 
@@ -102,61 +102,19 @@ class TicketPresenterTest extends BaseTestCase {
             'user_id' => 1,
             'note' => '007',
             'confirmed' => 0,
-            'created_at' => DateTime::from("2017-01-01 00:00:00"),
-            'updated_at' => DateTime::from("2017-01-01 00:00:00"),
-            'seats' => [
-                [
-                    'id' => 1,
-                    'schema_id' => 1,
-                    'x' => 1,
-                    'y' => 1,
-                    'row' => 1,
-                    'col' => 1,
-                    'price' => 250,
-                    'state' => Seats::RESERVED,
-                ],
-                [
-                    'id' => 2,
-                    'schema_id' => 1,
-                    'x' => 1,
-                    'y' => 2,
-                    'row' => 1,
-                    'col' => 2,
-                    'price' => 250,
-                    'state' => Seats::RESERVED,
-                ],
-                [
-                    'id' => 3,
-                    'schema_id' => 1,
-                    'x' => 1,
-                    'y' => 3,
-                    'row' => 1,
-                    'col' => 3,
-                    'price' => 250,
-                    'state' => Seats::RESERVED,
-                ],
-                [
-                    'id' => 4,
-                    'schema_id' => 1,
-                    'x' => 1,
-                    'y' => 4,
-                    'row' => 1,
-                    'col' => 4,
-                    'price' => 250,
-                    'state' => Seats::RESERVED,
-                ],
-                [
-                    'id' => 5,
-                    'schema_id' => 1,
-                    'x' => 1,
-                    'y' => 5,
-                    'row' => 1,
-                    'col' => 5,
-                    'price' => 250,
-                    'state' => Seats::RESERVED,
-                ],
+            'schema_id' => 1,
+            'schema' => [
+                'id' => 1,
+                'name' => 'Vánoční koncert',
+                'limit' => 5,
+                'price' => 250,
+                'hidden' => 1,
+                'locked' => 0,
             ],
-                ], $response->getPayload());
+            'created_at' => DateTime::from("2017-01-01 00:00:00")->getTimestamp() * 1000,
+            'updated_at' => DateTime::from("2017-01-01 00:00:00")->getTimestamp() * 1000,
+            'seats' => [1, 2, 3, 4, 5],
+        ], $response->getPayload());
     }
 
     public function testInvalidRead() {
@@ -214,7 +172,6 @@ class TicketPresenterTest extends BaseTestCase {
             $httpResponse = $this->container->getByType(IResponse::class);
         }, BadRequestException::class);
     }
-
 }
 
 # Spuštění testovacích metod

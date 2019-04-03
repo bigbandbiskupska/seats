@@ -1,6 +1,6 @@
 <?php
 
-use App\Tests\BaseTestCase;
+use App\Tests\TestCaseWithDatabase;
 use App\v1Module\Models\Seats;
 use Nette\Application\BadRequestException;
 use Nette\Application\IPresenterFactory;
@@ -13,19 +13,19 @@ use Tester\Assert;
 
 $container = require __DIR__ . "/../../../bootstrap.php";
 
-class Tickets1PresenterTest extends BaseTestCase {
+class Tickets1PresenterTest extends TestCaseWithDatabase {
 
     /** @var Presenter */
     protected $presenter;
 
-    public function setUp()
+    public function setUpClass()
     {
         $this->setUpRequestInput(array(
             'user_id' => 1,
             'seats' => [1, 2, 3, 4, 5],
             'note' => '007',
-            'created_at' => DateTime::from("2017-01-01 00:00:00"),
-            'updated_at' => DateTime::from("2017-01-01 00:00:00"),
+            'created_at' => '2017-01-01 00:00:00',
+            'updated_at' => '2017-01-01 00:00:00',
         ));
 
         $this->presenter = $this->createPresenter('v1:Tickets');
@@ -67,13 +67,14 @@ class Tickets1PresenterTest extends BaseTestCase {
             'updated_at' => DateTime::from("2017-01-01 00:00:00"),
         ];
 
+
         $actual = $response->getPayload();
+        dump($actual);
         Assert::equal($expected['user_id'], $actual['user_id']);
-        Assert::equal($expected['created_at'], $actual['created_at']);
-        Assert::equal($expected['updated_at'], $actual['updated_at']);
-        Assert::equal([1, 2, 3, 4, 5], array_map(function($e) {
-                    return $e['id'];
-                }, $actual['seats']));
+        // TODO: verify the timestamp is a good idea to return
+        Assert::equal($expected['created_at']->getTimestamp() * 1000, $actual['created_at']);
+        Assert::equal($expected['updated_at']->getTimestamp() * 1000, $actual['updated_at']);
+        Assert::equal([1, 2, 3, 4, 5], $actual['seats']);
         Assert::equal($expected['note'], $actual['note']);
 
         foreach ($this->database->table('reservations')->fetchPairs('seat_id') as $reservation) {

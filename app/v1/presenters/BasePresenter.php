@@ -4,13 +4,11 @@ namespace App\v1Module\Presenters;
 
 use App\v1Module\Models\Users;
 use App\v1Module\Security\User;
-use Exception;
 use Nette\Application\BadRequestException;
 use Nette\Application\ForbiddenRequestException;
 use Nette\Application\UI\Presenter;
 use Nette\Http\IResponse;
 use Nette\Security\Identity;
-use Nette\Utils\Arrays;
 use Nette\Utils\DateTime;
 use Nette\Utils\Json;
 
@@ -34,16 +32,17 @@ class BasePresenter extends Presenter
      */
     protected $user = null;
 
-    private function setCorsHeaders() {
+    private function setCorsHeaders()
+    {
         //if (in_array($this->getHttpRequest()->getHeader('Origin'), $this->allowedOrigins)) {
-            $this->getHttpResponse()->setHeader('Access-Control-Allow-Origin', $this->getHttpRequest()->getHeader('Origin'));
-            $this->getHttpResponse()->setHeader('Access-Control-Allow-Credentials', 'true');
-            $this->getHttpResponse()->setHeader('Access-Control-Allow-Methods', 'DELETE, PUT, POST, OPTIONS');
-            $this->getHttpResponse()->setHeader('Access-Control-Allow-Headers', 'Accept, Overwrite, Destination, Content-Type, Depth, User-Agent, Translate, Range, Content-Range, Timeout, X-Requested-With, If-Modified-Since, Cache-Control, Location');
-            $this->getHttpResponse()->setHeader('Access-Control-Max-Age', 1728000);
-            if ($this->getHttpRequest()->getMethod() == 'OPTIONS') {
-                $this->terminate();
-            }
+        $this->getHttpResponse()->setHeader('Access-Control-Allow-Origin', $this->getHttpRequest()->getHeader('Origin'));
+        $this->getHttpResponse()->setHeader('Access-Control-Allow-Credentials', 'true');
+        $this->getHttpResponse()->setHeader('Access-Control-Allow-Methods', 'DELETE, PUT, POST, OPTIONS');
+        $this->getHttpResponse()->setHeader('Access-Control-Allow-Headers', 'Accept, Overwrite, Destination, Content-Type, Depth, User-Agent, Translate, Range, Content-Range, Timeout, X-Requested-With, If-Modified-Since, Cache-Control, Location');
+        $this->getHttpResponse()->setHeader('Access-Control-Max-Age', 1728000);
+        if ($this->getHttpRequest()->getMethod() == 'OPTIONS') {
+            $this->terminate();
+        }
         //}
     }
 
@@ -60,7 +59,7 @@ class BasePresenter extends Presenter
 
         $this->users->update($user['id'], [
             'last_click_at' => new DateTime(),
-            'ip_address' => $_SERVER['REMOTE_ADDR'],
+            'ip_address' => isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : null,
         ]);
 
         $this->user = new User($user['email'], explode(',', $user['roles']), $user);
@@ -93,7 +92,7 @@ class BasePresenter extends Presenter
         }
 
         $allowed = false;
-        foreach($roles as $role) {
+        foreach ($roles as $role) {
             $allowed = $allowed || $this->user->isInRole($role);
         };
 

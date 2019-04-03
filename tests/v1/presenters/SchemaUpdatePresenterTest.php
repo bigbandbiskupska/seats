@@ -1,6 +1,6 @@
 <?php
 
-use App\Tests\BaseTestCase;
+use App\Tests\TestCaseWithDatabase;
 use Nette\Application\BadRequestException;
 use Nette\Application\IPresenterFactory;
 use Nette\Application\Request;
@@ -11,12 +11,12 @@ use Tester\Assert;
 
 $container = require __DIR__ . "/../../bootstrap.php";
 
-class SchemaUpdatePresenterTest extends BaseTestCase {
+class SchemaUpdatePresenterTest extends TestCaseWithDatabase {
 
     /** @var Presenter */
     protected $presenter;
 
-    public function setUp() {
+    public function setUpClass() {
         $this->setUpRequestInput(array(
             'name' => 'Nový testovací koncert',
             'price' => 1000,
@@ -57,8 +57,10 @@ class SchemaUpdatePresenterTest extends BaseTestCase {
             'hidden' => 1,
             'locked' => 0,
             'limit' => 100,
+            'seats' => array_values($this->database->table('seats')->where('schema_id', 1)->fetchPairs('id', 'id')),
         ];
         $actual = $response->getPayload();
+        dump($actual);
         Assert::equal($expected, $actual);
     }
 

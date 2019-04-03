@@ -1,6 +1,6 @@
 <?php
 
-use App\Tests\BaseTestCase;
+use App\Tests\TestCaseWithDatabase;
 use Nette\Application\BadRequestException;
 use Nette\Application\Request;
 use Nette\Application\Responses\JsonResponse;
@@ -11,19 +11,20 @@ use Tester\Assert;
 
 $container = require __DIR__ . "/../../bootstrap.php";
 
-class UsersPresenterTest extends BaseTestCase {
+class UsersPresenterTest extends TestCaseWithDatabase {
 
     /** @var Presenter */
     protected $presenter;
 
-    public function setUp() {
+    public function setUpClass() {
         $this->setUpRequestInput(array(
             'name' => 'New',
             'surname' => 'User',
             'email' => 'new@user.com',
             'password' => 'yyy',
             'ip_address' => '7.7.7.7',
-            'expires_at' => DateTime::from("2017-01-01 00:00:00")
+            'expires_at' => '2017-01-01 00:00:00',
+            'last_click_at' => '2017-01-01 00:00:00',
         ));
 
         $this->presenter = $this->createPresenter('v1:Users');
@@ -63,9 +64,11 @@ class UsersPresenterTest extends BaseTestCase {
             'token' => '',
             'roles' => 'user',
             'expires_at' => DateTime::from("2017-01-01 00:00:00"),
+            'last_click_at' => DateTime::from("2017-01-01 00:00:00"),
             'ip_address' => '7.7.7.7',
         ];
         $actual = $response->getPayload();
+
         Assert::equal($expected, $actual);
 
         Assert::count(2, $this->database->table('allowed_limit')->where('user_id', 4));

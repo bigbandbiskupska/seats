@@ -1,8 +1,0 @@
-[
-	'id' => 1,
-	'name' => 'Nový testovací koncert',
-	'max_allowed' => 5,
-	'price' => 1000,
-	'hidden' => 1,
-	'locked' => 0,
-]

@@ -75,7 +75,7 @@ class Schemas extends BaseModel
         }
         $seats = $schema->related('seats.schema_id')->fetchPairs('id');
         $seats = array_keys($seats);
-        shuffle($seats);
+        sort($seats);
         return array_merge(self::toArray($schema), [
             'seats' => $seats
         ]);

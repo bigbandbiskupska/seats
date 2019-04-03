@@ -1,8 +1,7 @@
 <?php
 
-use App\Tests\BaseTestCase;
+use App\Tests\TestCaseWithDatabase;
 use Nette\Application\BadRequestException;
-use Nette\Application\IPresenterFactory;
 use Nette\Application\Request;
 use Nette\Application\Responses\JsonResponse;
 use Nette\Application\UI\Presenter;
@@ -11,12 +10,12 @@ use Tester\Assert;
 
 $container = require __DIR__ . "/../../bootstrap.php";
 
-class SchemaPresenterTest extends BaseTestCase {
+class SchemaPresenterTest extends TestCaseWithDatabase {
 
     /** @var Presenter */
     protected $presenter;
 
-    public function setUp() {
+    public function setUpClass() {
         $this->presenter = $this->createPresenter('v1:Schema');
     }
 
@@ -51,6 +50,7 @@ class SchemaPresenterTest extends BaseTestCase {
             'hidden' => 1,
             'locked' => 0,
             'limit' => 5,
+            'seats' => array_values($this->database->table('seats')->where('schema_id', 1)->fetchPairs('id', 'id')),
         ], $response->getPayload());
     }
 
