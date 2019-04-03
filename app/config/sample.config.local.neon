@@ -5,8 +5,6 @@ parameters:
         user: root
         password: 
         dsn: 'mysql:host=%database.host%;dbname=%database.dbname%'
-
-parameters:
     api:
         users:
             forgotten_password: http://localhost:8004/users/forgotten_password
