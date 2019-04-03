@@ -12,8 +12,8 @@ define("WWW_DIR", __DIR__ . "/../www");
 define('TMP_DIR', __DIR__ . "/temp/" . getmypid());
 
 register_shutdown_function(function () {
-    //Tester\Helpers::purge(TMP_DIR);
-    //@rmdir(TMP_DIR);
+    Tester\Helpers::purge(TMP_DIR);
+    @rmdir(TMP_DIR);
 });
 
 Tester\Environment::setup();
@@ -64,8 +64,8 @@ function run($testcase)
 
         register_shutdown_function(function () use ($container) {
             /** @var Connection $database */
-            //$database = $container->getByType(Connection::class);
-            //$database->query('DROP DATABASE bbb_test_seats_' . getmypid());
+            $database = $container->getByType(Connection::class);
+            $database->query('DROP DATABASE bbb_test_seats_' . getmypid());
         });
     }
 
