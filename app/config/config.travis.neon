@@ -11,6 +11,10 @@ services:
     http.requestFactory:
         factory: App\Tests\RequestFactory
 
+# do not start session, as it creates httpRequest (without the mocked input)
+session:
+    autoStart: false
+
 security:
     users:
         jamesbond: 007
