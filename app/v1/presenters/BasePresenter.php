@@ -2,7 +2,7 @@
 
 namespace App\v1Module\Presenters;
 
-use App\v1Module\Models\Users;
+use App\v1Module\Models\UsersModel;
 use App\v1Module\Security\User;
 use Nette\Application\BadRequestException;
 use Nette\Application\ForbiddenRequestException;
@@ -16,7 +16,7 @@ class BasePresenter extends Presenter
 {
 
     /**
-     * @var Users
+     * @var UsersModel
      * @inject
      */
     public $users;
@@ -43,7 +43,6 @@ class BasePresenter extends Presenter
         if ($this->getHttpRequest()->getMethod() == 'OPTIONS') {
             $this->terminate();
         }
-        //}
     }
 
     public function startup()

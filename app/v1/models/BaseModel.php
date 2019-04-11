@@ -24,6 +24,7 @@ class BaseModel
     {
         $this->database = $database;
         $this->table = Strings::lower(ClassType::from($this)->getShortName());
+        $this->table = str_replace('model', '', $this->table);
     }
 
     public function all()

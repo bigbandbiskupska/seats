@@ -2,7 +2,7 @@
 
 namespace App\v1Module\Presenters;
 
-use App\v1Module\Models\Seats;
+use App\v1Module\Models\SeatsModel;
 
 /**
  * Simple route with matching (only if methods below exist):
@@ -15,7 +15,7 @@ class SeatPresenter extends BasePresenter
 {
 
     /**
-     * @var Seats
+     * @var SeatsModel
      * @inject
      */
     public $seats;

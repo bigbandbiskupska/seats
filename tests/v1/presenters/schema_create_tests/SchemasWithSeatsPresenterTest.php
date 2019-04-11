@@ -1,7 +1,7 @@
 <?php
 
 use App\Tests\TestCaseWithDatabase;
-use App\v1Module\Models\Seats;
+use App\v1Module\Models\SeatsModel;
 use Nette\Application\Request;
 use Nette\Application\Responses\JsonResponse;
 use Nette\Application\UI\Presenter;
@@ -25,19 +25,19 @@ class SchemasWithPresenterTest extends TestCaseWithDatabase
             'seats' => [
                 [
                     [
-                        'x' => 1, 'y' => 1, 'row' => 1, 'col' => 1, 'price' => 200, 'state' => Seats::AVAILABLE
+                        'x' => 1, 'y' => 1, 'row' => 1, 'col' => 1, 'price' => 200, 'state' => SeatsModel::AVAILABLE
                     ],
                     [
-                        'x' => 2, 'y' => 1, 'row' => 1, 'col' => 2, 'price' => 100, 'state' => Seats::AVAILABLE
+                        'x' => 2, 'y' => 1, 'row' => 1, 'col' => 2, 'price' => 100, 'state' => SeatsModel::AVAILABLE
                     ],
 
                 ],
                 [
                     [
-                        'x' => 1, 'y' => 2, 'row' => 2, 'col' => 1, 'price' => 400, 'state' => Seats::AVAILABLE
+                        'x' => 1, 'y' => 2, 'row' => 2, 'col' => 1, 'price' => 400, 'state' => SeatsModel::AVAILABLE
                     ],
                     [
-                        'x' => 2, 'y' => 2, 'row' => 2, 'col' => 2, 'price' => 800, 'state' => Seats::AVAILABLE
+                        'x' => 2, 'y' => 2, 'row' => 2, 'col' => 2, 'price' => 800, 'state' => SeatsModel::AVAILABLE
                     ],
 
                 ],

@@ -1,7 +1,7 @@
 <?php
 
 use App\Tests\TestCaseWithDatabase;
-use App\v1Module\Models\Seats;
+use App\v1Module\Models\SeatsModel;
 use Nette\Application\BadRequestException;
 use Nette\Application\IPresenterFactory;
 use Nette\Application\Request;
@@ -59,7 +59,7 @@ class SchemaSeatsPresenterTest extends TestCaseWithDatabase {
         foreach($payload as $id => $seat) {
             Assert::equal(1, $seat['schema_id'], 'All of the seats should have the schema_id set to 1.');
             Assert::equal(250, $seat['price'], 'All of the seats should have the price set to 250.');
-            Assert::equal(Seats::AVAILABLE, $seat['state'], 'All of the seats should be available');
+            Assert::equal(SeatsModel::AVAILABLE, $seat['state'], 'All of the seats should be available');
         }
     }
 }

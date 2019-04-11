@@ -1,7 +1,7 @@
 <?php
 
 use App\Tests\TestCaseWithDatabase;
-use App\v1Module\Models\Seats;
+use App\v1Module\Models\SeatsModel;
 use Nette\Application\BadRequestException;
 use Nette\Application\IPresenterFactory;
 use Nette\Application\Request;
@@ -20,7 +20,7 @@ class WallSeatTest extends TestCaseWithDatabase {
 
     public function setUpClass() {
         $this->database->table('seats')->get(51)->update([
-            'state' => Seats::WALL
+            'state' => SeatsModel::WALL
         ]);
 
         $this->setUpRequestInput(array(

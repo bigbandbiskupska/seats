@@ -1,7 +1,7 @@
 <?php
 
 use App\Tests\TestCaseWithDatabase;
-use App\v1Module\Models\Seats;
+use App\v1Module\Models\SeatsModel;
 use Nette\Application\BadRequestException;
 use Nette\Application\Request;
 use Nette\Application\Responses\JsonResponse;
@@ -32,7 +32,7 @@ class TicketNotMineTest extends TestCaseWithDatabase {
         ]);
         foreach ($this->database->table('seats')->where('id', [20, 21, 22])->fetchPairs('id') as $seat) {
             $seat->update([
-                'state' => Seats::RESERVED
+                'state' => SeatsModel::RESERVED
             ]);
         }
 
@@ -49,7 +49,7 @@ class TicketNotMineTest extends TestCaseWithDatabase {
         Assert::count(1, $this->database->table('reservations')->where('seat_id', 20));
         Assert::count(1, $this->database->table('tickets')->where('id', 1));
         foreach ($this->database->table('seats')->where('id', [20, 21, 22])->fetchPairs('id') as $seat) {
-            Assert::equal(Seats::RESERVED, $seat->state);
+            Assert::equal(SeatsModel::RESERVED, $seat->state);
         }
     }
 

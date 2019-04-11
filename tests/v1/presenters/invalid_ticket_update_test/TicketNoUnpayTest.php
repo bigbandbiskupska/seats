@@ -1,7 +1,7 @@
 <?php
 
 use App\Tests\TestCaseWithDatabase;
-use App\v1Module\Models\Seats;
+use App\v1Module\Models\SeatsModel;
 use Nette\Application\Request;
 use Nette\Application\Responses\JsonResponse;
 use Nette\Application\UI\Presenter;
@@ -35,7 +35,7 @@ class TicketNoUnpayTest extends TestCaseWithDatabase
                 ['seat_id' => 5, 'ticket_id' => 1, 'note' => '007']
             ]);
         $this->database->table('seats')->where('id', [1, 2, 3, 4, 5])->update([
-            'state' => Seats::RESERVED
+            'state' => SeatsModel::RESERVED
         ]);
 
         $this->setUpRequestInput(array(

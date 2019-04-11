@@ -16,10 +16,10 @@ session:
 
 services:
     router: App\RouterFactory::createRouter
-    v1seats: App\v1Module\Models\Seats
-    v1schemas: App\v1Module\Models\Schemas
-    v1users: App\v1Module\Models\Users
-    v1tickets: App\v1Module\Models\Tickets
+    v1seats: App\v1Module\Models\SeatsModel
+    v1schemas: App\v1Module\Models\SchemasModel
+    v1users: App\v1Module\Models\UsersModel
+    v1tickets: App\v1Module\Models\TicketsModel
     parameters: Tulinkry\Services\ParameterService
 
 database:

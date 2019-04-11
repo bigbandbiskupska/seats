@@ -1,7 +1,7 @@
 <?php
 
 use App\Tests\TestCaseWithDatabase;
-use App\v1Module\Models\Seats;
+use App\v1Module\Models\SeatsModel;
 use Nette\Application\BadRequestException;
 use Nette\Application\IPresenterFactory;
 use Nette\Application\Request;
@@ -60,7 +60,7 @@ class SeatsPresenterTest extends TestCaseWithDatabase {
             'y' => 300,
             'row' => 40,
             'col' => 30,
-            'state' => Seats::AVAILABLE,
+            'state' => SeatsModel::AVAILABLE,
             'schema_id' => 1,
             'price' => 250,
             'id' => 301,

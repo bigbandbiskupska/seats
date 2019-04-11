@@ -1,7 +1,7 @@
 <?php
 
 use App\Tests\TestCaseWithDatabase;
-use App\v1Module\Models\Seats;
+use App\v1Module\Models\SeatsModel;
 use Nette\Application\Request;
 use Nette\Application\Responses\JsonResponse;
 use Nette\Application\UI\Presenter;
@@ -35,7 +35,7 @@ class Tickets2PresenterTest extends TestCaseWithDatabase {
         $this->presenter = $this->createPresenter('v1:Tickets');
 
         foreach ($this->database->table('seats')->where('id', [101, 102, 103, 104, 105, 106])->fetchPairs('id') as $seat) {
-            Assert::equal(Seats::AVAILABLE, $seat->state);
+            Assert::equal(SeatsModel::AVAILABLE, $seat->state);
         }
 
         $request = new Request('v1:Tickets', 'POST', array('action' => 'create', 'token' => 'qwer'));
@@ -69,7 +69,7 @@ class Tickets2PresenterTest extends TestCaseWithDatabase {
             Assert::equal('009', $reservation->note);
         }
         foreach ($this->database->table('seats')->where('id', [101, 102, 103, 104, 105, 106])->fetchPairs('id') as $seat) {
-            Assert::equal(Seats::RESERVED, $seat->state);
+            Assert::equal(SeatsModel::RESERVED, $seat->state);
         }
     }
 

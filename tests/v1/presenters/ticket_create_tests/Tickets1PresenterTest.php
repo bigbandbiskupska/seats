@@ -1,7 +1,7 @@
 <?php
 
 use App\Tests\TestCaseWithDatabase;
-use App\v1Module\Models\Seats;
+use App\v1Module\Models\SeatsModel;
 use Nette\Application\BadRequestException;
 use Nette\Application\IPresenterFactory;
 use Nette\Application\Request;
@@ -47,7 +47,7 @@ class Tickets1PresenterTest extends TestCaseWithDatabase {
 
     public function testCreateForUser1() {
         foreach ($this->database->table('seats')->where('id', [1, 2, 3, 4, 5])->fetchPairs('id') as $seat) {
-            Assert::equal(Seats::AVAILABLE, $seat->state);
+            Assert::equal(SeatsModel::AVAILABLE, $seat->state);
         }
 
         $request = new Request('v1:Tickets', 'POST', array('action' => 'create', 'token' => 'abcd'));
@@ -82,7 +82,7 @@ class Tickets1PresenterTest extends TestCaseWithDatabase {
             Assert::equal('007', $reservation->note);
         }
         foreach ($this->database->table('seats')->where('id', [1, 2, 3, 4, 5])->fetchPairs('id') as $seat) {
-            Assert::equal(Seats::RESERVED, $seat->state);
+            Assert::equal(SeatsModel::RESERVED, $seat->state);
         }
     }
 

@@ -2,20 +2,20 @@
 
 namespace App\v1Module\Presenters;
 
-use App\v1Module\Models\Schemas;
-use App\v1Module\Models\Seats;
+use App\v1Module\Models\SchemasModel;
+use App\v1Module\Models\SeatsModel;
 
 class SchemaTicketsPresenter extends BasePresenter
 {
 
     /**
-     * @var Schemas
+     * @var SchemasModel
      * @inject
      */
     public $schemas;
 
     /**
-     * @var Seats
+     * @var SeatsModel
      * @inject
      */
     public $seats;

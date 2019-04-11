@@ -2,13 +2,13 @@
 
 namespace App\v1Module\Presenters;
 
-use App\v1Module\Models\Tickets;
+use App\v1Module\Models\TicketsModel;
 
 class TicketsPresenter extends BasePresenter
 {
 
     /**
-     * @var Tickets
+     * @var TicketsModel
      * @inject
      */
     public $tickets;

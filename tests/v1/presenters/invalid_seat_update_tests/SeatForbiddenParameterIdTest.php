@@ -1,7 +1,7 @@
 <?php
 
 use App\Tests\TestCaseWithDatabase;
-use App\v1Module\Models\Seats;
+use App\v1Module\Models\SeatsModel;
 use Nette\Application\BadRequestException;
 use Nette\Application\Request;
 use Nette\Application\Responses\JsonResponse;
@@ -24,7 +24,7 @@ class SeatForbiddenParameterIdTest extends TestCaseWithDatabase {
             'col' => 34436,
             'id' => 25, // invalid parameter (can't change id)
             'price' => 1234,
-            'state' => Seats::RESERVED,
+            'state' => SeatsModel::RESERVED,
         ));
 
         $this->presenter = $this->createPresenter('v1:Seat');

@@ -8,20 +8,20 @@ use Nette\Http\IResponse;
 use Tracy\Debugger;
 use Tracy\ILogger;
 
-class Schemas extends BaseModel
+class SchemasModel extends BaseModel
 {
 
     /**
-     * @var Seats
+     * @var SeatsModel
      * @inject
      */
     private $seats;
 
     /**
      * Schemas constructor.
-     * @param Seats $seats
+     * @param SeatsModel $seats
      */
-    public function __construct(Context $database, Seats $seats)
+    public function __construct(Context $database, SeatsModel $seats)
     {
         parent::__construct($database);
         $this->seats = $seats;
@@ -170,9 +170,9 @@ class Schemas extends BaseModel
                             // update
                             $id = $seat['id'];
 
-                            if ($seat['state'] == Seats::WALL || $seat['state'] == Seats::AVAILABLE) {
+                            if ($seat['state'] == SeatsModel::WALL || $seat['state'] == SeatsModel::AVAILABLE) {
                                 $oldSeat = $this->seats->find($id);
-                                if ($oldSeat['state'] === Seats::RESERVED && count($oldSeat['tickets']) > 0) {
+                                if ($oldSeat['state'] === SeatsModel::RESERVED && count($oldSeat['tickets']) > 0) {
                                     throw new BadRequestException(
                                         sprintf('Nelze smazat sedadlo z již existující objednávky [%d].', $oldSeat['tickets'][0]),
                                         IResponse::S400_BAD_REQUEST);
@@ -287,7 +287,7 @@ class Schemas extends BaseModel
             $line = &$seats[$i];
             for ($j = 0, $col = 0, $empty = true; $j < count($line); $j++) {
                 $seat = &$line[$j];
-                if ($seat['state'] != Seats::WALL) {
+                if ($seat['state'] != SeatsModel::WALL) {
                     $col++;
                     $empty = false;
                 }

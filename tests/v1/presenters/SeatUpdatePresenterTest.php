@@ -1,7 +1,7 @@
 <?php
 
 use App\Tests\TestCaseWithDatabase;
-use App\v1Module\Models\Seats;
+use App\v1Module\Models\SeatsModel;
 use Nette\Application\BadRequestException;
 use Nette\Application\IPresenterFactory;
 use Nette\Application\Request;
@@ -24,7 +24,7 @@ class SeatUpdatePresenterTest extends TestCaseWithDatabase {
             'row' => 70594,
             'col' => 34436,
             'price' => 1234,
-            'state' => Seats::RESERVED,
+            'state' => SeatsModel::RESERVED,
         ));
 
         $this->presenter = $this->createPresenter('v1:Seat');
@@ -62,7 +62,7 @@ class SeatUpdatePresenterTest extends TestCaseWithDatabase {
             'schema_id' => 1,
             'id' => 20,
             'price' => 1234,
-            'state' => Seats::RESERVED,
+            'state' => SeatsModel::RESERVED,
         ];
         $actual = $response->getPayload();
         Assert::equal($expected, $actual);

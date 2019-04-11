@@ -2,13 +2,13 @@
 
 namespace App\v1Module\Presenters;
 
-use App\v1Module\Models\Schemas;
+use App\v1Module\Models\SchemasModel;
 
 class SchemaPresenter extends BasePresenter
 {
 
     /**
-     * @var Schemas
+     * @var SchemasModel
      * @inject
      */
     public $schemas;

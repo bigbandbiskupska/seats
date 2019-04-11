@@ -1,7 +1,7 @@
 <?php
 
 use App\Tests\TestCaseWithDatabase;
-use App\v1Module\Models\Seats;
+use App\v1Module\Models\SeatsModel;
 use Nette\Application\BadRequestException;
 use Nette\Application\Request;
 use Nette\Application\Responses\JsonResponse;
@@ -53,7 +53,7 @@ class SeatPresenterTest extends TestCaseWithDatabase {
             'schema_id' => 1,
             'price' => 250,
             'tickets' => [],
-            'state' => Seats::AVAILABLE,
+            'state' => SeatsModel::AVAILABLE,
         ], $response->getPayload());
     }
 

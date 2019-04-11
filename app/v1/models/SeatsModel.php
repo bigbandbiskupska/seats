@@ -6,7 +6,7 @@ use Nette\Application\BadRequestException;
 use Nette\Http\IResponse;
 use Tracy\Debugger;
 
-class Seats extends BaseModel
+class SeatsModel extends BaseModel
 {
 
     const WALL = 0;

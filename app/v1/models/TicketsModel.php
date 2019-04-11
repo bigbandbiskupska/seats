@@ -11,19 +11,19 @@ use Nette\Utils\Strings;
 use Tracy\Debugger;
 use Tracy\ILogger;
 
-class Tickets extends BaseModel
+class TicketsModel extends BaseModel
 {
     /**
-     * @var Users
+     * @var UsersModel
      * @inject
      */
     private $users;
 
     /**
      * Schemas constructor.
-     * @param Users $users
+     * @param UsersModel $users
      */
-    public function __construct(Context $database, Users $users)
+    public function __construct(Context $database, UsersModel $users)
     {
         parent::__construct($database);
         $this->users = $users;
@@ -110,7 +110,7 @@ class Tickets extends BaseModel
 
             $schema_id = null;
             foreach ($seats as $id => $seat) {
-                if ($seat['state'] !== Seats::AVAILABLE) {
+                if ($seat['state'] !== SeatsModel::AVAILABLE) {
                     throw new BadRequestException("Sedadlo {$id} již bylo rezervováno.", IResponse::S400_BAD_REQUEST);
                 }
                 if ($schema_id === null) {
@@ -164,7 +164,7 @@ class Tickets extends BaseModel
             $this->database->table('seats')->where('id', array_map(function ($seat) {
                 return $seat['id'];
             }, $seats))->update([
-                'state' => Seats::RESERVED
+                'state' => SeatsModel::RESERVED
             ]);
             $this->database->commit();
             Debugger::log(sprintf('User [%d] (%s %s) created a new ticket [%d] with seats [%s] in schema [%d] (%s).',
@@ -233,7 +233,7 @@ class Tickets extends BaseModel
 
             foreach ($ticket->related('reservations')->fetchAll() as $reservation) {
                 $reservation->ref('seats', 'seat_id')->update([
-                    'state' => Seats::AVAILABLE
+                    'state' => SeatsModel::AVAILABLE
                 ]);
                 $reservation->delete();
             }

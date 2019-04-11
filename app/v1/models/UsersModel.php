@@ -7,7 +7,7 @@ use Nette\Database\UniqueConstraintViolationException;
 use Nette\Utils\Random;
 use Tracy\Debugger;
 
-class Users extends BaseModel
+class UsersModel extends BaseModel
 {
 
     public function findTickets($id)

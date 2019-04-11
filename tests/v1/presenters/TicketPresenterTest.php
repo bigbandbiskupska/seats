@@ -1,7 +1,7 @@
 <?php
 
 use App\Tests\TestCaseWithDatabase;
-use App\v1Module\Models\Seats;
+use App\v1Module\Models\SeatsModel;
 use Nette\Application\BadRequestException;
 use Nette\Application\Request;
 use Nette\Application\Responses\JsonResponse;
@@ -33,7 +33,7 @@ class TicketPresenterTest extends TestCaseWithDatabase {
                 ['seat_id' => 5, 'ticket_id' => 1, 'note' => '007']
             ]);
         $this->database->table('seats')->where('id', [1, 2, 3, 4, 5])->update([
-            'state' => Seats::RESERVED
+            'state' => SeatsModel::RESERVED
         ]);
 
         $this->database->table('tickets')->insert([
@@ -51,7 +51,7 @@ class TicketPresenterTest extends TestCaseWithDatabase {
             ['seat_id' => 10, 'ticket_id' => 2, 'note' => '008']
         ]);
         $this->database->table('seats')->where('id', [6, 7, 8, 9, 10])->update([
-            'state' => Seats::RESERVED
+            'state' => SeatsModel::RESERVED
         ]);
 
         $this->database->table('tickets')->insert([
@@ -67,7 +67,7 @@ class TicketPresenterTest extends TestCaseWithDatabase {
             ['seat_id' => 22, 'ticket_id' => 3, 'note' => '009']
         ]);
         $this->database->table('seats')->where('id', [20, 21, 22])->update([
-            'state' => Seats::RESERVED
+            'state' => SeatsModel::RESERVED
         ]);
 
         $this->presenter = $this->createPresenter('v1:Ticket');
@@ -140,7 +140,7 @@ class TicketPresenterTest extends TestCaseWithDatabase {
 
     public function testDelete() {
         foreach ($this->database->table('seats')->where('id', [6, 7, 8, 9, 10])->fetchPairs('id') as $seat) {
-            Assert::equal(Seats::RESERVED, $seat->state);
+            Assert::equal(SeatsModel::RESERVED, $seat->state);
         }
         $request = new Request('v1:Ticket', 'DELETE', array('action' => 'delete', 'id' => 2, 'token' => 'abcd'));
         /** @var JsonResponse */
@@ -160,7 +160,7 @@ class TicketPresenterTest extends TestCaseWithDatabase {
         Assert::count(0, $this->database->table('reservations')->where('ticket_id', 2));
 
         foreach ($this->database->table('seats')->where('id', [6, 7, 8, 9, 10])->fetchPairs('id') as $seat) {
-            Assert::equal(Seats::AVAILABLE, $seat->state);
+            Assert::equal(SeatsModel::AVAILABLE, $seat->state);
         }
     }
 

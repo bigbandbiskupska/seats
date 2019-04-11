@@ -9,7 +9,7 @@
 namespace App\v1Module\Presenters;
 
 
-use App\v1Module\Models\Users;
+use App\v1Module\Models\UsersModel;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Presenter;
 use Nette\Database\UniqueConstraintViolationException;
@@ -22,7 +22,7 @@ class LoginPresenter extends Presenter
 {
 
     /**
-     * @var Users
+     * @var UsersModel
      * @inject
      */
     public $users;

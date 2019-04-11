@@ -2,7 +2,7 @@
 
 namespace App\v1Module\Presenters;
 
-use App\v1Module\Models\Users;
+use App\v1Module\Models\UsersModel;
 use Latte\Engine;
 use Nette\Mail\IMailer;
 use Nette\Mail\Message;
@@ -11,7 +11,7 @@ use Tulinkry\Services\ParameterService;
 class UsersPresenter extends BasePresenter
 {
     /**
-     * @var Users
+     * @var UsersModel
      * @inject
      */
     public $users;
