@@ -27,7 +27,6 @@ class UsersModel extends BaseModel
     {
         $user = $this->database->table($this->table)->insert($parameters);
 
-        // TODO: test this
         // needs new token for authorization
         do {
             $parameters['token'] = Random::generate(128);

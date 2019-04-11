@@ -41,7 +41,6 @@ class TicketsModel extends BaseModel
         }, $this->database->table($this->table)->fetchAll());
     }
 
-
     public function findSeats($id)
     {
         if (($ticket = $this->database->table($this->table)->get($id)) === false) {

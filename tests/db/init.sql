@@ -391,7 +391,7 @@ CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `surname` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL UNIQUE,
   `password` varchar(255) NOT NULL,
   `roles` varchar(255) NOT NULL DEFAULT 'user',
   `token` varchar(255) NOT NULL,
