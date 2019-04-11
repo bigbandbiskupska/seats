@@ -3,7 +3,6 @@
 namespace App\v1Module\Presenters;
 
 use App\v1Module\Models\Tickets;
-use Nette\Application\Responses\JsonResponse;
 
 class TicketsPresenter extends BasePresenter
 {
@@ -22,7 +21,8 @@ class TicketsPresenter extends BasePresenter
     }
 
     // TODO: test
-    public function actionRead() {
+    public function actionRead()
+    {
         $this->ensureRoles(['administrator']);
         $this->sendJson($this->tickets->all());
     }

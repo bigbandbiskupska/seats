@@ -4,7 +4,6 @@ namespace App\v1Module\Presenters;
 
 use App\v1Module\Models\Schemas;
 use App\v1Module\Models\Seats;
-use Nette\Application\Responses\JsonResponse;
 
 class SchemasPresenter extends BasePresenter
 {

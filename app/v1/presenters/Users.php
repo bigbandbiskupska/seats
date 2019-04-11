@@ -4,7 +4,6 @@ namespace App\v1Module\Presenters;
 
 use App\v1Module\Models\Users;
 use Latte\Engine;
-use Nette\Http\Url;
 use Nette\Mail\IMailer;
 use Nette\Mail\Message;
 use Tulinkry\Services\ParameterService;
@@ -33,7 +32,7 @@ class UsersPresenter extends BasePresenter
     {
         $this->ensureRoles(['administrator']);
         $body = $this->getJsonBody(['name', 'surname', 'email']);
-        if(!isset($body['password']) || empty($body['password'])) {
+        if (!isset($body['password']) || empty($body['password'])) {
             // this is a new user without a password
             // so we need to send him an email about how to reset the password
 
@@ -48,7 +47,7 @@ class UsersPresenter extends BasePresenter
 
 
             $mail = new Message();
-            $mail ->setFrom('vstupenky@bigbandbiskupska.cz')
+            $mail->setFrom('vstupenky@bigbandbiskupska.cz')
                 ->addTo($body['email'])
                 ->setSubject('Vítejte ' . $body['name'] . ' v aplikaci na rezervaci lístků')
                 ->setHtmlBody($latte->renderToString(__DIR__ . '/../templates/mail/new_user.latte', $params));

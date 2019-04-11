@@ -31,7 +31,7 @@ class Tickets extends BaseModel
 
     public function all()
     {
-        return array_map(function($ticket) {
+        return array_map(function ($ticket) {
             return array_merge(self::toArray($ticket),
                 ['created_at' => $ticket->created_at->getTimestamp() * 1000],
                 ['updated_at' => $ticket->updated_at->getTimestamp() * 1000],
@@ -75,7 +75,7 @@ class Tickets extends BaseModel
                     throw new BadRequestException("Uživatel {$parameters['user_id']} neexistuje.", IResponse::S400_BAD_REQUEST);
                 }
             } else if (isset($parameters['user']) && isset($parameters['user']['name']) && isset($parameters['user']['surname'])) {
-                if(empty($parameters['user']['name']) || empty($parameters['user']['surname'])) {
+                if (empty($parameters['user']['name']) || empty($parameters['user']['surname'])) {
                     throw new BadRequestException('Jméno a příjmení jsou povinná políčka.', IResponse::S400_BAD_REQUEST);
                 }
                 // TODO: test this
@@ -126,7 +126,7 @@ class Tickets extends BaseModel
                 throw new BadRequestException('Akce pro vaše sedadla neexistuje.', IResponse::S400_BAD_REQUEST);
             }
 
-            if($schema->locked) {
+            if ($schema->locked) {
                 throw new BadRequestException('Tato akce je uzamčena pro rezervace.', IResponse::S400_BAD_REQUEST);
             }
 
@@ -170,7 +170,9 @@ class Tickets extends BaseModel
             Debugger::log(sprintf('User [%d] (%s %s) created a new ticket [%d] with seats [%s] in schema [%d] (%s).',
                 $user->id, $user->name, $user->surname,
                 $ticket->id,
-                implode(",", array_map(function($seat) { return $seat['id']; }, $seats)),
+                implode(",", array_map(function ($seat) {
+                    return $seat['id'];
+                }, $seats)),
                 $schema->id, $schema->name
             ), 'actions');
         } catch (BadRequestException $e) {
@@ -223,7 +225,9 @@ class Tickets extends BaseModel
             $logRecord = sprintf('User [%d] (%s %s) deleted a ticket [%d] with seats [%s] in schema [%d] (%s).',
                 $ticket->ref('user')->id, $ticket->ref('user')->name, $ticket->ref('user')->surname,
                 $id,
-                implode(",", array_map(function($reservation) { return $reservation->seat_id; }, $ticket->related('reservations')->fetchAll())),
+                implode(",", array_map(function ($reservation) {
+                    return $reservation->seat_id;
+                }, $ticket->related('reservations')->fetchAll())),
                 $ticket->ref('schema')->id, $ticket->ref('schema')->name
             );
 

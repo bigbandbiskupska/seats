@@ -2,8 +2,6 @@
 
 namespace App\v1Module\Presenters;
 
-use App\v1Module\Models\Schemas;
-use App\v1Module\Models\Seats;
 use App\v1Module\Models\Tickets;
 
 class TicketSeatsPresenter extends BasePresenter

@@ -31,7 +31,7 @@ class TicketPresenter extends BasePresenter
     public function actionDelete($id)
     {
         $this->ensureRoles(['user']);
-        if($this->tickets->find($id)['user_id'] !== $this->user->getData()['id']) {
+        if ($this->tickets->find($id)['user_id'] !== $this->user->getData()['id']) {
             throw new BadRequestException('Nelze smazat objednávku, která vám nepatří.', IResponse::S400_BAD_REQUEST);
         }
         $this->tickets->delete($id);

@@ -67,7 +67,8 @@ class BaseModel
      * @param $id the primary key
      * @return the active row; or null if entity does not exist
      */
-    public function entity($id) {
+    public function entity($id)
+    {
         return $this->database->table($this->table)->get($id) ?: null;
     }
 

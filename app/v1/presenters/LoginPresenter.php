@@ -10,7 +10,6 @@ namespace App\v1Module\Presenters;
 
 
 use App\v1Module\Models\Users;
-use Exception;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Presenter;
 use Nette\Database\UniqueConstraintViolationException;
@@ -28,8 +27,9 @@ class LoginPresenter extends Presenter
      */
     public $users;
 
-    public function actionLogin() {
-        if($this->getHttpRequest()->getMethod() !== 'POST') {
+    public function actionLogin()
+    {
+        if ($this->getHttpRequest()->getMethod() !== 'POST') {
             throw new BadRequestException('Přihlašovat se lze pouze metodou POST.', IResponse::S405_METHOD_NOT_ALLOWED);
         }
         // TODO: test
@@ -45,7 +45,7 @@ class LoginPresenter extends Presenter
             throw new BadRequestException('Zadané údaje jsou nesprávné.', IResponse::S401_UNAUTHORIZED);
         }
 
-        if(!$row['token'] || empty($row['token']) || $row['token'] === null) {
+        if (!$row['token'] || empty($row['token']) || $row['token'] === null) {
             // needs new token for authorization
             do {
                 $row['token'] = $row['token'] = Random::generate(128);

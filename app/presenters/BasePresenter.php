@@ -2,8 +2,7 @@
 
 namespace App\Presenters;
 
-use Nette,
-	App\Model;
+use Nette;
 
 
 /**
