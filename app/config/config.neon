@@ -20,6 +20,7 @@ services:
     v1schemas: App\v1Module\Models\SchemasModel
     v1users: App\v1Module\Models\UsersModel
     v1tickets: App\v1Module\Models\TicketsModel
+    - App\v1Module\Models\CheckpointsModel
     parameters: Tulinkry\Services\ParameterService
 
 database:

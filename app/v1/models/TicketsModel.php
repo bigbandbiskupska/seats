@@ -13,6 +13,9 @@ use Tracy\ILogger;
 
 class TicketsModel extends BaseModel
 {
+    const CONFIRMED = 'confirmed';
+    const PACKAGED = 'packaged';
+    const UNCONFIRMED = 'unconfirmed';
     /**
      * @var UsersModel
      * @inject
