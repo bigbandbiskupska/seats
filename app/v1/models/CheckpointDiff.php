@@ -54,12 +54,12 @@ class CheckpointDiff extends StdClass
 
     public function removeUser($user)
     {
-        $this->data['users'][] = sprintf('deleted user %s', $user);
+        $this->data['users'][] = sprintf('deleted user %s', $user['email']);
     }
 
     public function addUser($user)
     {
-        $this->data['users'][] = sprintf('added user %s', $user);
+        $this->data['users'][] = sprintf('added user %s', $user['email']);
     }
 
     public function moveActionSeat($user, $seat, $from, $to)

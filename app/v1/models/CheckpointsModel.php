@@ -246,7 +246,7 @@ class CheckpointsModel extends BaseModel
             $diff->addDeletedSeat($seat);
         }
 
-        foreach (array_diff_key($new[self::USERS], $old[self::USERS]) as $id => $seat) {
+        foreach (array_diff_key($new[self::SEATS], $old[self::SEATS]) as $id => $seat) {
             $diff->addSeat($seat);
         }
 
