@@ -367,7 +367,8 @@ class CheckpointsModel extends BaseModel
             $curr = $this->diff($old, $new);
             $curr->data->seats = array();
             $curr->data->users = array_filter($curr->data->users, function ($user) use ($id) {
-                return $user->user->id == $id;
+                // TODO: removed "add user/delete user", maybe consider something better
+                return isset($user->user) && $user->user->id == $id;
             });
 
             foreach ($curr->data->users as $user) {
