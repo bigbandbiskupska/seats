@@ -190,7 +190,7 @@ class TicketsModel extends BaseModel
     public function update($id, $parameters)
     {
         foreach ($parameters as $column => $value) {
-            if (!in_array($column, ['note', 'confirmed'])) {
+            if (!in_array($column, ['note', 'confirmed', 'packaged'])) {
                 throw new BadRequestException("Neznámé nebo zakázané nastavení $column.", IResponse::S400_BAD_REQUEST);
             }
         }
