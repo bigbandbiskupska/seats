@@ -3,8 +3,12 @@ MAINTAINER Kryštof Tulinger <k.tulinger@gmail.com>
 
 ENV WWW_ROOT /app
 
-RUN apt-get -y update && \
-  apt-get -y install git zip nano zlib1g-dev
+RUN sed -i 's/deb.debian.org/archive.debian.org/g' /etc/apt/sources.list && \
+    sed -i 's/security.debian.org/archive.debian.org/g' /etc/apt/sources.list && \
+    sed -i '/stretch-updates/d' /etc/apt/sources.list
+
+RUN apt-get -y -o Acquire::Check-Valid-Until=false --allow-unauthenticated update && \
+  apt-get -y --allow-unauthenticated install git zip nano zlib1g-dev
 
 RUN apt-get -y clean
 
