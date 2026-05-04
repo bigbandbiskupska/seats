@@ -67,14 +67,14 @@ class CheckpointDiff extends StdClass
         $this->data['users'][] = new UserEvent($user, $seat, $this->reasons[$from][$to][0], $from, $to, $this->reasons[$from][$to][1]);
     }
 
-    public function addDeletedSeat($seat)
+    public function addDeletedSeat($seat, $from, $to)
     {
-        $this->data['seats'][] = 'deleted seat ' . $seat;
+        $this->data['seats'][] = new SeatEvent($seat, $from, $to);
     }
 
-    public function addSeat($seat)
+    public function addSeat($seat, $from, $to)
     {
-        $this->data['seats'][] = 'deleted seat ' . $seat;
+        $this->data['seats'][] = new SeatEvent($seat, $from, $to);
     }
 
     public function moveSeat($seat, $from, $to)

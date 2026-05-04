@@ -243,11 +243,11 @@ class CheckpointsModel extends BaseModel
 
         // find missing seats
         foreach (array_diff_key($old[self::SEATS], $new[self::SEATS]) as $id => $seat) {
-            $diff->addDeletedSeat($seat);
+            $diff->addDeletedSeat($seat, $seat['user'], null);
         }
 
         foreach (array_diff_key($new[self::SEATS], $old[self::SEATS]) as $id => $seat) {
-            $diff->addSeat($seat);
+            $diff->addSeat($seat, null, $seat['user']);
         }
 
         // common ids

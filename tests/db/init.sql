@@ -5,6 +5,25 @@ SET time_zone = '+00:00';
 SET foreign_key_checks = 0;
 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
+
+DROP TABLE IF EXISTS `summary`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`a136925_seats`@`%` SQL SECURITY DEFINER
+VIEW `summary` AS
+    SELECT
+    `u`.`surname` AS `příjmení`,
+    `u`.`name` AS `jméno`,
+    `u`.`email` AS `email`,
+    count(distinct `t`.`id`) AS `objednávky`,
+    count(`r`.`seat_id`) AS `sedadla`,
+(select coalesce(sum(`s`.`price`),0) from ((`tickets` `t` join `reservations` `r` on((`r`.`ticket_id` = `t`.`id`))) join `seats` `s` on((`s`.`id` = `r`.`seat_id`))) where ((`t`.`user_id` = `u`.`id`) and (`t`.`confirmed` = 1 and t.created_at >= '2019-01-01 00:00:00'))) AS `zaplaceno`,
+((select coalesce(sum(`s`.`price`),0) from ((`tickets` `t` join `reservations` `r` on((`r`.`ticket_id` = `t`.`id`))) join `seats` `s` on((`s`.`id` = `r`.`seat_id`))) where (`t`.`user_id` = `u`.`id` and t.created_at >= '2019-01-01 00:00:00')) -
+    (select coalesce(sum(`s`.`price`),0) from ((`tickets` `t` join `reservations` `r` on((`r`.`ticket_id` = `t`.`id`))) join `seats` `s` on((`s`.`id` = `r`.`seat_id`))) where ((`t`.`user_id` = `u`.`id`) and (`t`.`confirmed` = 1 and t.created_at >= '2019-01-01 00:00:00')))) AS `zbývá zaplatit`,
+    '                                         ' AS `poznámka`,
+    '   ' AS `hotovo` from ((`users` `u` join `tickets` `t` on((`t`.`user_id` = `u`.`id`))) join `reservations` `r` on((`r`.`ticket_id` = `t`.`id`))) where t.created_at >= '2019-01-01 00:00:00'
+group by `u`.`id`,`u`.`name`,`u`.`surname`,`u`.`email` order by `u`.`surname`,`u`.`name`,`u`.`email`;
+
+
 DROP TABLE IF EXISTS `allowed_limit`;
 CREATE TABLE `allowed_limit` (
   `user_id` int(11) NOT NULL,
