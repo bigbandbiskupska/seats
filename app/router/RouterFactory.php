@@ -28,7 +28,7 @@ class RouterFactory
         $router[] = new ApiRoute('/api/v1/users', 'v1:Users');
         $router[] = new ApiRoute('/api/v1/user/<id>', 'v1:User');
         $router[] = new ApiRoute('/api/v1/user/<user_id>/history', 'v1:UserHistory');
-        $router[] = new Route('/api/v1/users/login', 'v1:Login:login');
+        $router[] = new Route('/api/v1/users/login', 'v1:Login:login', Route::SECURED);
 
         $router[] = new ApiRoute('/api/v1/user/<user_id>/tickets', 'v1:UserTickets');
         $router[] = new ApiRoute('/api/v1/user/<user_id>/ticket/<id>', 'v1:Ticket');
@@ -43,9 +43,9 @@ class RouterFactory
             'presenter' => 'v1:Checkpoints',
             'action' => 'diff',
             'new' => null,
-        ]);
+        ], Route::SECURED);
 
-        $router[] = new Route('<presenter>/<action>[/<id>]', 'Homepage:default');
+        $router[] = new Route('<presenter>/<action>[/<id>]', 'Homepage:default', Route::SECURED);
         return $router;
     }
 
